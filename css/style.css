@@ -1,0 +1,42 @@
+@import url("bootstrap.min.css");
+
+.container{
+    max-width: 500px;
+}
+ul{
+    padding: 0;
+    list-style-type: none;
+}
+a:hover, a:active{
+    text-decoration: none;
+    outline: none;
+}
+
+header{
+    height: 50px;
+    background-color: cadetblue;
+}
+
+#top-nav{
+    margin-top: 10px;
+    float: right;
+}
+#top-nav li{
+    float: right;
+    margin-right: 30px;
+}
+#top-nav li a{
+    text-transform: uppercase;
+    color: #fff;
+    display: block;
+    height: 32px;
+    line-height: 32px;
+    padding: 0 15px;
+    border-radius: 10px;
+}
+#top-nav li.active a, #top-nav li a:hover {
+    background: #929e21;
+}
+.error{
+    color: red;
+}
