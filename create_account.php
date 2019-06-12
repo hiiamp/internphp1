@@ -69,7 +69,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     if (empty($_POST["dayofbirth"])) {
         $check = 0;
-        $emailErr = "Day of Birth is required";
+        $birthErr = "Day of Birth is required";
     } else {
         $birth = test_input($_POST["dayofbirth"]);
         $d = strtotime($birth);
@@ -81,7 +81,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     if (empty($_POST["password"])) {
         $check = 0;
-        $emailErr = "Password is required";
+        $passErr = "Password is required";
     } else {
         $password = test_input($_POST["password"]);
         if (strlen($password) < 5) {
