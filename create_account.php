@@ -16,6 +16,9 @@
             $("#search").click(function () {
                 location.href = "search_account.php";
             });
+            $("#create").click(function () {
+                location.href = "create_account.php";
+            });
         });
     </script>
 </head>
@@ -52,7 +55,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         $name = test_input($_POST["name"]);
         // check if name only contains letters and whitespace
-        if ($validate->name($name)) {
+        if (!$validate->name($name)) {
             $check = 0;
             $nameErr = "Only letters and white space allowed";
         }
@@ -63,7 +66,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         $email = test_input($_POST["email"]);
         // check if e-mail address is well-formed
-        if ($validate->email($email)) {
+        if (!$validate->email($email)) {
             $check = 0;
             $emailErr = "Invalid email format";
         }
@@ -73,7 +76,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $birthErr = "Day of Birth is required";
     } else {
         $birth = test_input($_POST["dayofbirth"]);
-        if ($validate->birthDay($birth)) {
+        if (!$validate->birthDay($birth)) {
             $check = 0;
             $birthErr = "You was born?";
         }
@@ -93,7 +96,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         $website = test_input($_POST["website"]);
         // check if URL address syntax is valid (this regular expression also allows dashes in the URL)
-        if($validate->website($website)){
+        if(!$validate->website($website)){
             $websiteErr = "Invalid URL";
             $check = 0;
         }
@@ -111,7 +114,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $gender = test_input($_POST["gender"]);
     }
 }
-if ($check == 0 && $name != "") {
+if ($check == 1 && $name != "") {
     include 'myLibrary/connectDTB_PDO.php';
     $conn = connect_DTB("account_ex1");
     $sql_check = "select * from `account` where `email`='$email'";

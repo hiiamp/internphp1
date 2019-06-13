@@ -13,6 +13,9 @@
             $("#list").click(function () {
                 location.href = "index.php";
             });
+            $("#search").click(function () {
+                location.href = "search_account.php";
+            });
             $("#create").click(function () {
                 location.href = "create_account.php";
             });
