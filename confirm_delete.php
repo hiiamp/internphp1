@@ -2,7 +2,6 @@
 include "myLibrary/function_validate.php";
 $email = "";
 $email = @$_REQUEST["email"];
-echo $email;
 $email = test_input($email);
 if ($email == "") {
     die("Error!");
