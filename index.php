@@ -14,7 +14,7 @@
     <title>Training SI2 - 10/6/2019</title>
     <script>
         $(document).ready(function () {
-            $.post("showlist.php", {}, function (data) {
+            $.post("controller/showlist.php", {}, function (data) {
                 $("#main").html(data);
             });
             $("#create").click(function () {
@@ -22,6 +22,9 @@
             });
             $("#search").click(function () {
                 location.href = "search_account.php";
+            });
+            $("#list").click(function () {
+                location.href = "index.php";
             });
         });
     </script>
@@ -46,8 +49,13 @@
     </div>
 </header>
 
-<div id="main">
+<div id="main1">
 
+</div>
+<div >
+    <?php
+        include "controller/showlist_page.php";
+    ?>
 </div>
 
 </body>

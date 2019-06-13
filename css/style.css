@@ -1,7 +1,10 @@
 @import url("bootstrap.min.css");
 
 .container{
-    max-width: 500px;
+
+}
+.badge{
+    font-size: 50px;
 }
 ul{
     padding: 0;

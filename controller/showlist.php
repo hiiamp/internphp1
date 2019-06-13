@@ -4,7 +4,7 @@ $conn = connect_DTB("account_ex1");
 $stmt = $conn->prepare("SELECT * FROM account");
 $stmt->execute();
 $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-echo '<table width = "100%" class="table table-bordered table-hover" >
+echo '<table width = "100%" class="table table-striped table-condensed table-bordered table-rounded" >
     <h2 > List Account Created: </h2> 
     <TR>
         <TH>Name</TH>
@@ -31,5 +31,6 @@ foreach ($resultSet as $row) {
                </TR>';
 }
 echo '</table>';
+
 
 ?>
