@@ -54,17 +54,10 @@
     </form>
 </center>
 <?php
-function test_input($data)
-{
-    $data = trim($data);
-    $data = stripslashes($data);
-    $data = htmlspecialchars($data);
-    return $data;
-}
-
+include "myLibrary/function_validate.php";
+include 'myLibrary/connectDTB_PDO.php';
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $key = test_input($_POST["key"]);
-    include 'connectDTB_PDO.php';
     $conn = connect_DTB("account_ex1");
     $stmt = $conn->prepare("SELECT * FROM account where name like '%$key%'");
     $stmt->execute();

@@ -1,5 +1,5 @@
 <?php
-include 'connectDTB_PDO.php';
+include 'myLibrary/connectDTB_PDO.php';
 $conn = connect_DTB("account_ex1");
 $stmt = $conn->prepare("SELECT * FROM account");
 $stmt->execute();
@@ -18,17 +18,17 @@ echo '<table width = "100%" class="table table-bordered table-hover" >
 $resultSet = $stmt->fetchAll();
 foreach ($resultSet as $row) {
     echo '<TR>
-                    <TD>' . $row['name'] . '</TD>
-                    <TD>' . $row['email'] . '</TD>
-                    <TD>' . $row['website'] . '</TD>
-                    <TD>' . $row['dayofbirth'] . '</TD>
-                    <TD>' . $row['other'] . '</TD>
-                    <TD>' . $row['gender'] . '</TD>
-                    <TD>
-                        <button> <a href="edit_account.php?email=' . $row['email'] . '"> Edit </a></button>
-                        <button> <a href="delete_account.php?name=' . $row['name'] . '"> Delete </a> </button>
-                    </TD>
-                </TR>';
+               <TD>' . $row['name'] . '</TD>
+               <TD>' . $row['email'] . '</TD>
+               <TD>' . $row['website'] . '</TD>
+               <TD>' . $row['dayofbirth'] . '</TD>
+               <TD>' . $row['other'] . '</TD>
+               <TD>' . $row['gender'] . '</TD>
+               <TD>
+                   <button> <a href="edit_account.php?email=' . $row['email'] . '"> Edit </a></button>
+                   <button> <a href="confirm_delete.php?email=' . $row['email'] . '"> Delete </a> </button>
+               </TD>
+               </TR>';
 }
 echo '</table>';
 

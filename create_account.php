@@ -39,6 +39,8 @@
     </div>
 </header>
 <?php
+include "myLibrary/function_validate.php";
+$validate = new Validate();
 // define variables and set to empty values
 $passErr = $birthErr = $nameErr = $emailErr = $genderErr = $websiteErr = "";
 $password = $birth = $name = $email = $gender = $comment = $website = "";
@@ -50,19 +52,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         $name = test_input($_POST["name"]);
         // check if name only contains letters and whitespace
-        if (!preg_match("/^[a-zA-Z ]*$/", $name)) {
+        if ($validate->name($name)) {
             $check = 0;
             $nameErr = "Only letters and white space allowed";
         }
     }
-
     if (empty($_POST["email"])) {
         $emailErr = "Email is required";
         $check = 0;
     } else {
         $email = test_input($_POST["email"]);
         // check if e-mail address is well-formed
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        if ($validate->email($email)) {
             $check = 0;
             $emailErr = "Invalid email format";
         }
@@ -72,9 +73,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $birthErr = "Day of Birth is required";
     } else {
         $birth = test_input($_POST["dayofbirth"]);
-        $d = strtotime($birth);
-        $today = date("Y-m-d");
-        if (strtotime($d) > strtotime($today)) {
+        if ($validate->birthDay($birth)) {
             $check = 0;
             $birthErr = "You was born?";
         }
@@ -94,12 +93,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         $website = test_input($_POST["website"]);
         // check if URL address syntax is valid (this regular expression also allows dashes in the URL)
-        if (!preg_match("/\b(?:(?:https?|ftp):\/\/|www\.)[-a-z0-9+&@#\/%?=~_|!:,.;]*[-a-z0-9+&@#\/%=~_|]/i", $website)) {
+        if($validate->website($website)){
             $websiteErr = "Invalid URL";
             $check = 0;
         }
     }
-
     if (empty($_POST["comment"])) {
         $comment = "";
     } else {
@@ -113,26 +111,37 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $gender = test_input($_POST["gender"]);
     }
 }
-
-function test_input($data)
-{
-    $data = trim($data);
-    $data = stripslashes($data);
-    $data = htmlspecialchars($data);
-    return $data;
-}
-
-if ($check == 1 && $name != "") {
-    include 'connectDTB_PDO.php';
+if ($check == 0 && $name != "") {
+    include 'myLibrary/connectDTB_PDO.php';
     $conn = connect_DTB("account_ex1");
-    $sql = "INSERT INTO `account` (`name`, `email`, `website`, `other`, `gender`, `dayofbirth`, `password`) 
-    VALUES ('$name', '$email', '$website', '$comment', '$gender', '$birth', '$password');";
-    $conn->exec($sql);
-    die("Add account success!");
+    $sql_check = "select * from `account` where `email`='$email'";
+    $temp = $conn->prepare($sql_check);
+    $temp->execute();
+    $result = $temp->setFetchMode(PDO::FETCH_ASSOC);
+    $resultSet = $temp->fetchAll();
+    $c1 = 0;
+    foreach ($resultSet as $row){
+        $c1=1;
+    }
+    if($c1==1){
+        echo '<script language="javascript">';
+        echo 'alert("Email already exists!")';
+        echo '</script>';
+    } else {
+        $sql = "INSERT INTO `account` (`name`, `email`, `website`, `other`, `gender`, `dayofbirth`, `password`) 
+        VALUES ('$name', '$email', '$website', '$comment', '$gender', '$birth', '$password');";
+        $conn->exec($sql);
+        $conn = null;
+        echo '<script language="javascript">';
+        echo 'var r = confirm("Add account success!");';
+        echo 'if(r) window.location="index.php";';
+        echo '</script>';
+        die("Error - email doesn't exists!");
+        die("Add account success!");
+    }
+    $conn = null;
 }
-
 ?>
-
 <h2>Please input your account infor:</h2>
 <p><span class="error">* required field</span></p>
 <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
