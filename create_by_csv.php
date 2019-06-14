@@ -47,6 +47,8 @@
     <form class="form-horizontal" method="post" name="upload_excel" enctype="multipart/form-data" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
         <fieldset>
             <legend>Choose your CSV file:</legend>
+            <p >* Each line in your file must be same type:</p>
+            <p >name,email,password,website,birthday,other infor,gender</p>
             <a href="create_account.php" class="badge badge-secondary" style="font-size: 20px;">Or input your infor by keyboard?</a>
             <br>
             <br>

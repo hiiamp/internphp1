@@ -22,15 +22,22 @@
                 <TH>Gender</TH>
                 <TH>Status</TH>
             </TR>';
+            $line = 1;
             while(($data = fgetcsv($file,20000,","))!==false){
                 $infor = "Success!";
+                $cl_infor = "success";
                 $add = true;
+                if(isset($data[0])&&!isset($data[6]))
+                    echo "<p class='error'>Not enough data on line $line</p><br>";
+                $line++;
                 if(!isset($data[6])) continue;
                 if(check_exist($data[1])) {
                     $infor = "Email exists!";
+                    $cl_infor = "error";
                     $add = false;
                 } else if(!check_validInput($data[0],$data[1],$data[2],$data[3],$data[4],strtolower($data[6]) ) ){
                     $infor = "Invalid infor!";
+                    $cl_infor = "error";
                     $add = false;
                 }
                 $name = $data[0];
@@ -54,7 +61,7 @@
                            <TD>' . $birth . '</TD>
                            <TD>' . $comment . '</TD>
                            <TD>' . $gender . '</TD>
-                           <TD>' . $infor   . '</TD>
+                           <TD><p class="'.$cl_infor.'">'.$infor.'</p></TD>
                      </TR>';
 
             }
