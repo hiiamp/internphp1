@@ -25,6 +25,7 @@
             while(($data = fgetcsv($file,20000,","))!==false){
                 $infor = "Success!";
                 $add = true;
+                if(!isset($data[6])) continue;
                 if(check_exist($data[1])) {
                     $infor = "Email exists!";
                     $add = false;
